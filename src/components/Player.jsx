@@ -44,7 +44,7 @@ export const Player = (props) => {
 }
 */
 
-
+/*
 // function name으로 구성
 import React from 'react';
 import Counter from "./Counter";
@@ -58,7 +58,27 @@ function Player(props) {
       <span className="player-name">
         {props.name}
       </span>
-      <Counter score={props.score}></Counter>
+      <Counter score={props.score} changeScore={props.changeSore} id={props.id}></Counter>
+    </div>
+  );
+}
+*/
+
+// function name으로 구성
+import React from 'react';
+import Counter from "./Counter";
+
+function Player(props) {
+  return (
+    <div className="player">
+      <span className="player-name">
+        <button className="remove-player" onClick={() => props.removePlayer(props.id)}>x</button>
+      </span>
+      <span className="player-name">
+        {props.children}
+        {props.name}
+      </span>
+      <Counter score={props.score} changeScore={props.changeSore} id={props.id}></Counter>
     </div>
   );
 }
