@@ -1,3 +1,4 @@
+/*
 import React from 'react';
 
 class Stopwatch extends React.Component {
@@ -64,6 +65,64 @@ class Stopwatch extends React.Component {
       </div>
     );
   }
+}
+*/
+
+import React, {useEffect, useState} from 'react';
+
+function Stopwatch(props) {
+  let tickRef;
+
+  const [isRunning, setIsRunning] = useState(false);
+  const [timer, setTimer] = useState(0);
+
+  const handleStopwatch = () => {
+    setIsRunning(!isRunning);
+  }
+
+  const handleReset = () => {
+    if(!isRunning) {
+      setTimer(0);
+    }
+  }
+
+  const tick = () => {
+    // isRunning이 true이면 timer를 1씩 증가
+    if (isRunning) {
+      setTimer(timer + 1);
+    }
+  }
+
+  useEffect(() => {
+    tickRef = setInterval(tick, 1000);
+    return () => {
+      clearInterval(tickRef);
+    }
+  }, [timer]);
+
+  const getButton = () => {
+    if(isRunning) {
+      return (
+        <button onClick={handleStopwatch}>Stop</button>
+      );
+    }else {
+      return (
+        <button onClick={handleStopwatch}>Start</button>
+      );
+    }
+
+  }
+
+
+  return (
+    <div className="stopwatch">
+      <h2>Stopwatch</h2>
+      <span className="stopwatch-time">{timer}</span>
+      {getButton()}
+      <button onClick={handleReset}>Reset</button>
+    </div>
+  );
+
 }
 
 export default Stopwatch
