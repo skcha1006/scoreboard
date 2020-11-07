@@ -68,13 +68,16 @@ class Stopwatch extends React.Component {
 }
 */
 
-import React, {useEffect, useState} from 'react';
+//useRef 사용
+/*import React, {useRef, useEffect, useState} from 'react';
 
 function Stopwatch(props) {
   let tickRef;
 
   const [isRunning, setIsRunning] = useState(false);
   const [timer, setTimer] = useState(0);
+
+  const refIsRunning = useRef(false);
 
   const handleStopwatch = () => {
     setIsRunning(!isRunning);
@@ -88,7 +91,8 @@ function Stopwatch(props) {
 
   const tick = () => {
     // isRunning이 true이면 timer를 1씩 증가
-    if (isRunning) {
+
+    if (refIsRunning.current) {
       setTimer(timer + 1);
     }
   }
@@ -102,10 +106,12 @@ function Stopwatch(props) {
 
   const getButton = () => {
     if(isRunning) {
+      refIsRunning.current = true;
       return (
         <button onClick={handleStopwatch}>Stop</button>
       );
     }else {
+      refIsRunning.current = false;
       return (
         <button onClick={handleStopwatch}>Start</button>
       );
@@ -120,6 +126,51 @@ function Stopwatch(props) {
       <span className="stopwatch-time">{timer}</span>
       {getButton()}
       <button onClick={handleReset}>Reset</button>
+    </div>
+  );
+
+}
+*/
+
+import React, {useRef, useEffect, useState} from 'react';
+import {useInterval} from "../hooks/useInterval";
+
+function Stopwatch(props) {
+
+  const [isRunning, setIsRunning] = useState(false);
+  const [timer, setTimer] = useState(0);
+
+  useInterval(() => {
+    // Your custom logic here
+    if (isRunning) {
+      setTimer(timer => timer + 1);
+    }
+  }, 1000);
+
+  const getButton = () => {
+    if (isRunning) {
+      return (
+        <button onClick={() => setIsRunning(!isRunning)}>
+          stop
+        </button>
+      );
+    } else {
+      return (
+        <button onClick={() => setIsRunning(!isRunning)}>
+          start
+        </button>
+      );
+    }
+  }
+
+  return (
+    <div className="stopwatch">
+      <h2>Stopwatch</h2>
+      <span className="stopwatch-time">{timer}</span>
+      {
+        getButton()
+      }
+      <button>Reset</button>
     </div>
   );
 

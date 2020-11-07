@@ -54,13 +54,15 @@ class AddPlayerForm extends React.Component{
 };
 */
 
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 
 function AddPlayerForm(props) {
   const [value, setValue] = useState('');
 
-  const formRef = React.createRef();
-  const textRef = React.createRef();
+  //const formRef = React.createRef();
+  const formRef = useRef(null);
+  //const textRef = React.createRef();
+  const textRef = useRef(null);
 
   const handleValueChange = (e) => {
     setValue(e.target.value);
